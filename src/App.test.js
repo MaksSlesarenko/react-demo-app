@@ -1,7 +1,10 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
 
+jest.mock("./modules/stories/Stories", () => "h1");
+
 test("render layout", () => {
-  render(<App />);
+  const res = render(<App />);
+  expect(res).toMatchSnapshot("<div><h1 /></div>");
 });

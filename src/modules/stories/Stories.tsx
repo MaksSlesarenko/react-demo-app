@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactElement } from "react";
 import Divider from "@material-ui/core/Divider";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Box from "@material-ui/core/Box";
@@ -6,27 +6,28 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Story from "./Story";
+import { StoryType } from "./StoryType";
 import { getStoriesIds, getStory } from "./StoriesApi";
 import shuffle from "lodash/shuffle";
 
 const STORIES_LIMIT = 10;
 
-function Stories() {
-  const [stories, setStories] = useState([]);
+function Stories(): ReactElement {
+  const [stories, setStories]: [StoryType[], CallableFunction] = useState([]);
 
   useEffect(() => {
-    getStoriesIds().then((ids) => {
-
-      const storiesPromieses = shuffle(ids)
+    getStoriesIds().then((ids: number[]) => {
+      const storiesPromieses: Promise<StoryType>[] = shuffle(ids)
         .slice(0, STORIES_LIMIT)
-        .map((storyId) => getStory(storyId));
+        .map((storyId: number) => getStory(storyId));
 
       Promise.allSettled(storiesPromieses).then((results) => {
-        const successfullStories = results.filter(
+        const successfullStories: PromiseFulfilledResult<StoryType>[] = results.filter(
           ({ status }) => status === "fulfilled"
-        );
+        ) as PromiseFulfilledResult<StoryType>[];
+
         const stories = successfullStories.map(({ value }) => value);
-        stories.sort((a, b) => a.score - b.score);
+        stories.sort((a: StoryType, b: StoryType) => a.score - b.score);
         setStories(stories);
       });
     });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -8,7 +8,7 @@ const useStyles = makeStyles({
   },
 });
 
-function isSameDate(date, now = new Date()) {
+function isSameDate(date: Date, now: Date = new Date()): boolean {
   return (
     date.getFullYear() === now.getFullYear() &&
     date.getMonth() === now.getMonth() &&
@@ -16,7 +16,7 @@ function isSameDate(date, now = new Date()) {
   );
 }
 
-function getFormatedDate(time) {
+function getFormatedDate(time: number): string {
   const date = new Date(time * 1000);
 
   const year = date.getFullYear();
@@ -41,7 +41,12 @@ function getFormatedDate(time) {
   return formatedDate;
 }
 
-export default function DateFormat({ time, ...props }) {
+export default function DateFormat({
+  time,
+  ...props
+}: {
+  time: number;
+}): ReactElement {
   const classes = useStyles();
 
   return (

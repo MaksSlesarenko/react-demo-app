@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
@@ -12,8 +12,9 @@ import Typography from "@material-ui/core/Typography";
 import DateFormat from "../../components/DateFormat";
 import { makeStyles } from "@material-ui/core/styles";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import { StoryType } from "./StoryType";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles: CallableFunction = makeStyles((theme) => ({
   score: {
     verticalAlign: "middle",
     display: "inline-flex",
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Story({ story }) {
+function Story({ story }: { story: StoryType }): ReactElement {
   const classes = useStyles();
 
   return (
@@ -59,16 +60,14 @@ function Story({ story }) {
       </CardContent>
       <CardActions>
         <Grid container>
-          <Grid item xs={12} align="end">
-            <Button
-              className={classes.button}
-              href={story.url}
-              target="_blank"
-              color="primary"
-            >
-              Learn More <OpenInNewIcon />
-            </Button>
-          </Grid>
+          <Button
+            className={classes.button}
+            href={story.url}
+            target="_blank"
+            color="primary"
+          >
+            Learn More <OpenInNewIcon />
+          </Button>
         </Grid>
       </CardActions>
     </Card>
